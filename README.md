@@ -4,7 +4,7 @@
 
 ### 1.1. Qual problema ou necessidade o produto busca resolver?
 
-O turismo moderno busca cada vez mais experiências autênticas e personalizadas, fugindo dos roteiros turísticos padronizados. No entanto, viajantes frequentemente enfrentam dificuldades em descobrir locais verdadeiramente únicos e recomendados por quem realmente conhece a região: os moradores locais. A falta de informações confiáveis e acessíveis sobre pontos de interesse menos conhecidos, mas culturalmente ricos, ou estabelecimentos que oferecem uma experiência genuína, é um problema comum. Além disso, a dificuldade em planejar rotas otimizadas para visitar esses locais, considerando a proximidade e a conveniência, é outro desafio. Nosso produto visa preencher essa lacuna, oferecendo uma plataforma onde o conhecimento local é valorizado e compartilhado, permitindo que turistas explorem destinos de uma forma mais imersiva e significativa.
+O turismo moderno busca cada vez mais experiências autênticas e personalizadas, fugindo dos roteiros turísticos padronizados. No entanto, viajantes frequentemente enfrentam dificuldades em descobrir locais verdadeiramente únicos e recomendados por quem realmente conhece a região: os moradores locais. A falta de informações confiáveis e acessíveis sobre pontos de interesse menos conhecidos, mas culturalmente ricos, ou estabelecimentos que oferecem uma experiência genuína, é um problema comum.
 
 ### 1.2. Quem serão os usuários finais do produto?
 
