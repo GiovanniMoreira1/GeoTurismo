@@ -5,7 +5,11 @@ using GeoturismoAPI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
+using NetTopologySuite;
+using NetTopologySuite.Geometries;
+using System.Globalization;
 
 namespace GeoturismoAPI.Controllers
 {
@@ -45,7 +49,6 @@ namespace GeoturismoAPI.Controllers
             }
             catch (Exception ex)
             {
-
                 return BadRequest(new { mensagem = "Erro ao criar um novo local", erro = ex.Message });
             }
         }
@@ -91,11 +94,25 @@ namespace GeoturismoAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok();
+                return Ok(local);
             }
             catch (Exception ex)
             {
                 return BadRequest(new { mensagem = String.Concat("Erro ao buscar o local ", id), erro = ex.Message });
+            }
+        }
+
+        [Authorize]
+        [HttpPost("/api/Locais/proximidade")]
+        public IActionResult Listar_Pontos_Proximos([FromBody] LocaisProximosRequestDTO request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return Ok(_locaisRepository.ListarLocaisProximos(request.Latitude, request.Longitude, request.Metros));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensagem = String.Concat("Erro ao locais pela localizacao do usuario"), erro = ex.Message });
             }
         }
     }

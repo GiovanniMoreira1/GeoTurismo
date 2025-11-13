@@ -2,8 +2,13 @@
 using GeoturismoAPI.Domains;
 using GeoturismoAPI.Interfaces;
 using GeoturismoAPI.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite;
 using NetTopologySuite.Geometries;
+using System.Globalization;
+using GeoturismoAPI.Utils;
 
 namespace GeoturismoAPI.Repositories
 {
@@ -35,24 +40,6 @@ namespace GeoturismoAPI.Repositories
             return local;
         }
 
-
-        public void CriarLocal(LocalCreateDTO localNovo, Guid id_usuarios)
-        {
-            var local = new locai 
-            { 
-                usuarios_id = id_usuarios,
-                nome = localNovo.nome,
-                descricao = localNovo.descricao,
-                endereco = localNovo.endereco,
-                localizacao = new Point(localNovo.Latitude, localNovo.Longitude) { SRID = 4326 },
-                //filtros = localNovo.filtros.Select(f => new filtro { categorias_id = f.categorias_id }).ToList()
-            };
-
-            ctx.locais.Add(local);
-
-            ctx.SaveChanges();
-        }
-
         public List<locaisViewModel> ListarLocais()
         {
             List<locai> listaLocais = ctx.locais
@@ -68,17 +55,84 @@ namespace GeoturismoAPI.Repositories
 
             foreach (var item in listaLocais)
             {
-                locaisViewModel local = new locaisViewModel{
+                locaisViewModel local = new locaisViewModel
+                {
                     id_locais = item.id_locais,
                     nome = item.nome,
-                    Latitude = item.localizacao.X,
-                    Longitude = item.localizacao.Y
+                    Latitude = item.localizacao.Y,
+                    Longitude = item.localizacao.X
                 };
 
                 locaisTratados.Add(local);
             }
 
             return locaisTratados;
+        }
+
+        public void CriarLocal(LocalCreateDTO localNovo, Guid id_usuarios)
+        {
+            // Verifica duplicidade por nome em um raio de 100 metros
+            var locaisProximos = ListarPontosProxixmos(localNovo.Latitude, localNovo.Longitude, 100);
+
+            bool existeDuplicado = locaisProximos
+                .Any(l => string.Equals(l.nome.Trim(), localNovo.nome.Trim(), StringComparison.OrdinalIgnoreCase));
+
+            if (existeDuplicado)
+            {
+                throw new InvalidOperationException($"Já existe um local com o nome '{localNovo.nome}' em um raio de 100 metros.");
+            }
+            else
+            {
+                // Criação do novo local
+                var local = new locai
+                {
+                    usuarios_id = id_usuarios,
+                    nome = localNovo.nome,
+                    descricao = localNovo.descricao,
+                    endereco = localNovo.endereco,
+                    localizacao = new Point(localNovo.Longitude, localNovo.Latitude) { SRID = 4326 },
+                    //filtros = localNovo.filtros.Select(f => new filtro { categorias_id = f.categorias_id }).ToList()
+                };
+
+                ctx.locais.Add(local);
+                ctx.SaveChanges();
+            }
+        }
+
+        public List<locai> ListarPontosProxixmos(double Latitude, double Longitude, int metros = 100)
+        {
+            var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+            var myLocation = geometryFactory.CreatePoint(new Coordinate(Longitude, Latitude));
+
+            List<locai> locais = ctx.locais.ToList();
+
+            return locais.OrderBy(x => x.localizacao.Distance(myLocation)).Where(x => x.localizacao.IsWithinDistance(myLocation, metros)).ToList();
+
+        }
+
+        public IOrderedEnumerable<LocaisProximosResponseDTO> ListarLocaisProximos(double Latitude, double Longitude, int metros=100)
+        {
+            var locais = ListarPontosProxixmos(Latitude, Longitude, metros);
+
+            var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+
+            var currentLocation = geometryFactory.CreatePoint(new Coordinate(Longitude, Latitude));
+
+            IOrderedEnumerable<LocaisProximosResponseDTO> locaisOrdenadosDistancia = locais.ToList().Select(local => new LocaisProximosResponseDTO()
+            {
+                id_local = local.id_locais,
+                nome = local.nome,
+                endereco = local.endereco,
+                latitude = Convert.ToDouble(local.localizacao.Y, CultureInfo.InvariantCulture),
+                longitude = Convert.ToDouble(local.localizacao.X, CultureInfo.InvariantCulture),
+                distancia = Distancia.GreatCircleDistance(
+                    Convert.ToDouble(local.localizacao.Y, CultureInfo.InvariantCulture), // latitude
+                    Convert.ToDouble(local.localizacao.X, CultureInfo.InvariantCulture), // longitude
+                    Latitude,
+                    Longitude),
+            }).OrderBy(x => x.distancia);
+
+            return locaisOrdenadosDistancia;
         }
 
     }
