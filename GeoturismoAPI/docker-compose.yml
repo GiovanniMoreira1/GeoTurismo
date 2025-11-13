@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BUILD_CONFIGURATION: Release
+    depends_on:
+      - db
+    environment:
+      ConnectionStrings__Default: "Host=db;Port=5432;Database=geoturismo;Username=geoturismo;Password=geopass"
+      ASPNETCORE_URLS: "http://+:8080"
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+
+  db:
+    image: postgis/postgis:17-3.4
+    container_name: geoturismo-postgis
+    environment:
+      POSTGRES_DB: geoturismo
+      POSTGRES_USER: geoturismo
+      POSTGRES_PASSWORD: geopass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-postgis:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U geoturismo -d geoturismo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:
