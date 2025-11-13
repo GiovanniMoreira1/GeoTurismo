@@ -74,6 +74,7 @@ builder.Services.AddDbContext<GeoturismoContext>(options =>
 // Injeção de dependência
 builder.Services.AddTransient<DbContext, GeoturismoContext>();
 builder.Services.AddTransient<IUsuarioInterface, UsuarioRepository>();
+builder.Services.AddTransient<ILocaisInterface, LocaisRepository>();
 
 var app = builder.Build();
 
