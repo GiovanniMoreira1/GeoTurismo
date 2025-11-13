@@ -5,7 +5,6 @@ namespace GeoturismoAPI.ViewModels
 {
     public class LocalCreateDTO
     {
-        public Guid usuarios_id { get; set; }
         [Required(ErrorMessage = "O campo nome é obrigatório!")]
         public string nome { get; set; }
         [Required(ErrorMessage = "O campo descricao é obrigatório!")]
@@ -16,7 +15,8 @@ namespace GeoturismoAPI.ViewModels
         public double Latitude { get; set; }
         [Required(ErrorMessage = "O campo Longitude é obrigatório!")]
         public double Longitude { get; set; }
-        //public List<FiltroCreateDTO> filtros { get; set; }
+        [Required(ErrorMessage = "O campo Longitude é obrigatório!")]
+        public List<FiltroCreateDTO> filtros { get; set; }
     }
 
     public class FiltroCreateDTO

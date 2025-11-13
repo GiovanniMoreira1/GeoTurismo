@@ -33,9 +33,9 @@ namespace GeoturismoAPI.Repositories
             ctx.SaveChanges();
         }
 
-        public usuario Login(string email, string senha)
+        public usuario Login(loginViewModel infoLogin)
         {
-            var usuario = ctx.usuarios.FirstOrDefault(u => u.email == email);
+            var usuario = ctx.usuarios.FirstOrDefault(u => u.email == infoLogin.email);
 
             if (usuario != null)
             {
@@ -46,7 +46,7 @@ namespace GeoturismoAPI.Repositories
                     ctx.SaveChanges();
                 }
 
-                bool comparado = Crypto.Comparar(senha, usuario.senha);
+                bool comparado = Crypto.Comparar(infoLogin.senha, usuario.senha);
 
                 if (comparado == true)
                 {
