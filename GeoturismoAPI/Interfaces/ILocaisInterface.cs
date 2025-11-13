@@ -29,5 +29,16 @@ namespace GeoturismoAPI.Interfaces
         /// </summary>
         /// <returns>locais proximos ordenados</returns>
         IOrderedEnumerable<LocaisProximosResponseDTO> ListarLocaisProximos(double Latitude, double Longitude, int metros = 100);
+
+        /// <summary>
+        /// Metodo responsavel por deletar um local
+        /// </summary>
+        void DeletarLocal(Guid id, Guid idUsuario);
+
+        /// <summary>
+        /// Listar todos os locais do usuario
+        /// </summary>
+        /// <returns>Uma lista dos meus locais</returns>
+        List<locaisViewModel> ListarMeusLocais(Guid id);
     }
 }

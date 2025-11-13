@@ -1,6 +1,7 @@
 ﻿using GeoturismoAPI.Domains;
 using GeoturismoAPI.Interfaces;
 using GeoturismoAPI.Repositories;
+using GeoturismoAPI.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -27,11 +28,11 @@ namespace GeoturismoAPI.Controllers
         /// <param name="login">Objeto do tipo Login com Email e Senha</param>
         /// <returns>Usuario com esse email e senha</returns>
         [HttpPost]
-        public IActionResult Login(String email, String senha)
+        public IActionResult Login(loginViewModel infoLogin)
         {
             try
             {
-                usuario UsuarioBuscado = _usuarioRepository.Login(email, senha);
+                usuario UsuarioBuscado = _usuarioRepository.Login(infoLogin);
 
                 if (UsuarioBuscado != null)
                 {

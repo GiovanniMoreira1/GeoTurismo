@@ -11,7 +11,7 @@ namespace GeoturismoAPI.Interfaces
         /// <param name="email">Email inserido pelo usuario para comparacao</param>
         /// <param name="senha">Senha inserida pelo usuario para comparção</param>
         /// <returns>Retorna um usuario caso os valores recebidos sejam semelhantes aos do banco de dados.</returns>
-        usuario Login(string email, string senha);
+        usuario Login(loginViewModel infoLogin);
         
         /// <summary>
         /// Método de cadastro de usuario

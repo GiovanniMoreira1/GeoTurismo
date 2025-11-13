@@ -91,7 +91,7 @@ namespace GeoturismoAPI.Repositories
                     descricao = localNovo.descricao,
                     endereco = localNovo.endereco,
                     localizacao = new Point(localNovo.Longitude, localNovo.Latitude) { SRID = 4326 },
-                    //filtros = localNovo.filtros.Select(f => new filtro { categorias_id = f.categorias_id }).ToList()
+                    filtros = localNovo.filtros.Select(f => new filtro { categorias_id = f.categorias_id }).ToList()
                 };
 
                 ctx.locais.Add(local);
@@ -135,5 +135,49 @@ namespace GeoturismoAPI.Repositories
             return locaisOrdenadosDistancia;
         }
 
+        public void DeletarLocal(Guid idlocal, Guid idUsuario)
+        {
+            var local = ctx.locais
+            .Where(l => l.id_locais == idlocal && l.usuarios_id == idUsuario)
+            .FirstOrDefault();
+
+            if (local == null)
+                throw new Exception("Local não encontrado ou não pertence ao usuário.");
+
+            ctx.locais.Remove(local);
+
+            ctx.SaveChanges();
+        }
+
+        public List<locaisViewModel> ListarMeusLocais(Guid id)
+        {
+            List<locai> listaLocais = ctx.locais
+               .Where(l => l.usuarios_id == id)
+               .Select(l => new locai()
+               {
+                   id_locais = l.id_locais,
+                   nome = l.nome,
+                   localizacao = l.localizacao
+               }
+               
+               ).ToList();
+
+            List<locaisViewModel> locaisTratados = new List<locaisViewModel>();
+
+            foreach (var item in listaLocais)
+            {
+                locaisViewModel local = new locaisViewModel
+                {
+                    id_locais = item.id_locais,
+                    nome = item.nome,
+                    Latitude = item.localizacao.Y,
+                    Longitude = item.localizacao.X
+                };
+
+                locaisTratados.Add(local);
+            }
+
+            return locaisTratados;
+        }
     }
 }

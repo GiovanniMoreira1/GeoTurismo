@@ -88,7 +88,7 @@ namespace GeoturismoAPI.Controllers
             try
             {
                 LocalResponseDTO local = _locaisRepository.BuscarId(id);
-                
+
                 if (local == null)
                 {
                     return NotFound();
@@ -102,6 +102,10 @@ namespace GeoturismoAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Metodo responsavel por Listar pontos proximos a uma localizacao
+        /// </summary>
+        /// <returns>locais proximos ordenados</returns>
         [Authorize]
         [HttpPost("/api/Locais/proximidade")]
         public IActionResult Listar_Pontos_Proximos([FromBody] LocaisProximosRequestDTO request, CancellationToken cancellationToken)
@@ -115,5 +119,52 @@ namespace GeoturismoAPI.Controllers
                 return BadRequest(new { mensagem = String.Concat("Erro ao locais pela localizacao do usuario"), erro = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Metodo responsavel por deletar um local
+        /// </summary>
+        [Authorize]
+        [HttpDelete("{id}")]
+        public IActionResult Deletar(Guid id)
+        {
+            try
+            {
+                Guid id_usuarios = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
+
+                if (id_usuarios == Guid.Empty)
+                    return Unauthorized("Token inválido ou expirado.");
+
+                _locaisRepository.DeletarLocal(id, id_usuarios);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensagem = String.Concat("Erro ao deletar o local ", id), erro = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Listar todos os locais do usuario
+        /// </summary>
+        /// <returns>Uma lista dos meus locais</returns>
+        [Authorize]
+        [HttpGet("meuslocais")]
+        public IActionResult Listar_Meus_locais()
+        {
+            try
+            {
+                Guid id_usuarios = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
+
+                if (id_usuarios == Guid.Empty)
+                    return Unauthorized("Token inválido ou expirado.");
+
+                return Ok(_locaisRepository.ListarMeusLocais(id_usuarios));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensagem = String.Concat("Erro ao listar locais do usuario"), erro = ex.Message });
+            }
+        }
+
     }
 }

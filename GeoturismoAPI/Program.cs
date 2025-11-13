@@ -66,10 +66,11 @@ builder.Services.AddCors(options =>
 // Banco de dados
 builder.Services.AddDbContext<GeoturismoContext>(options =>
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("Default"),
+        builder.Configuration.GetConnectionString("User Id=postgres.wpydwwpfpopsovoqkdgn;Password=QjXZEdBxubWoVG3P;Server=aws-1-us-east-2.pooler.supabase.com;Port=5432;Database=postgres"),
         x => x.UseNetTopologySuite()
     )
 );
+
 
 // Injeção de dependência
 builder.Services.AddTransient<DbContext, GeoturismoContext>();

@@ -34,7 +34,8 @@ public partial class GeoturismoContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=geoturismo;Username=geoturismo;Password=geopass;Include Error Detail=true", x => x.UseNetTopologySuite());
+        => optionsBuilder.UseNpgsql("User Id=postgres.wpydwwpfpopsovoqkdgn;Password=QjXZEdBxubWoVG3P;Server=aws-1-us-east-2.pooler.supabase.com;Port=5432;Database=postgres", x => x.UseNetTopologySuite());
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
