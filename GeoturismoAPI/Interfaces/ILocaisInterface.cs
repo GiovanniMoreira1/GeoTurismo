@@ -23,5 +23,11 @@ namespace GeoturismoAPI.Interfaces
         /// <param name="id">Id a ser buscado</param>
         /// <returns>Um local especifico</returns>
         LocalResponseDTO BuscarId(Guid id);
+
+        /// <summary>
+        /// Metodo responsavel por Listar pontos proximos a uma localizacao
+        /// </summary>
+        /// <returns>locais proximos ordenados</returns>
+        IOrderedEnumerable<LocaisProximosResponseDTO> ListarLocaisProximos(double Latitude, double Longitude, int metros = 100);
     }
 }
