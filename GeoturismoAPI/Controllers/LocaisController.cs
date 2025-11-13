@@ -1,5 +1,6 @@
 ﻿using GeoturismoAPI.Domains;
 using GeoturismoAPI.Interfaces;
+using GeoturismoAPI.Repositories;
 using GeoturismoAPI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -34,8 +35,6 @@ namespace GeoturismoAPI.Controllers
             {
                 Guid id_usuarios = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
 
-                Console.WriteLine(id_usuarios);
-
                 if (id_usuarios == Guid.Empty)
                     return Unauthorized("Token inválido ou expirado.");
 
@@ -47,7 +46,7 @@ namespace GeoturismoAPI.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = "Erro ao criar um novo local", erro = ex.Message });
             }
         }
 
@@ -61,11 +60,16 @@ namespace GeoturismoAPI.Controllers
         {
             try
             {
+                List<locaisViewModel> listaLocais = _locaisRepository.ListarLocais();
+                if (listaLocais.Count == 0)
+                {
+                    return NoContent();
+                }
                 return Ok(_locaisRepository.ListarLocais());
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = "Erro ao buscar os locais", erro = ex.Message });
             }
         }
 
@@ -80,11 +84,18 @@ namespace GeoturismoAPI.Controllers
         {
             try
             {
-                return Ok(_locaisRepository.BuscarId(id));
+                LocalResponseDTO local = _locaisRepository.BuscarId(id);
+                
+                if (local == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = String.Concat("Erro ao buscar o local ", id), erro = ex.Message });
             }
         }
     }

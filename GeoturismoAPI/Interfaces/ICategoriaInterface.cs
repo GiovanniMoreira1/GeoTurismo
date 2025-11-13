@@ -1,4 +1,5 @@
 ﻿using GeoturismoAPI.Domains;
+using GeoturismoAPI.ViewModels;
 
 namespace GeoturismoAPI.Interfaces
 {
@@ -8,6 +9,6 @@ namespace GeoturismoAPI.Interfaces
         /// Retorna todas as categorias criadas
         /// </summary>
         /// <returns>Lista de categorias</returns>
-        List<categoria> ListarTodas();
+        List<categoriaViewModel> ListarTodas();
     }
 }

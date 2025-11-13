@@ -75,6 +75,7 @@ builder.Services.AddDbContext<GeoturismoContext>(options =>
 builder.Services.AddTransient<DbContext, GeoturismoContext>();
 builder.Services.AddTransient<IUsuarioInterface, UsuarioRepository>();
 builder.Services.AddTransient<ILocaisInterface, LocaisRepository>();
+builder.Services.AddTransient<ICategoriaInterface, CategoriaRepository>();
 
 var app = builder.Build();
 
