@@ -25,14 +25,5 @@ namespace GeoturismoAPI.Interfaces
         /// <param name="id">Id a ser buscado</param>
         /// <returns>Um usuario especifico</returns>
         usuario BuscarId(Guid id);
-
-        /// <summary>
-        /// Metodo responsavel pela listagem de pontos com base na localizacao do usuario
-        /// </summary>
-        /// <param name="Latitude">Latitude atual do usuario</param>
-        /// <param name="Longitude">Longitude atual do usuario</param>
-        /// <param name="metros">Raio de busca dos pontos</param>
-        /// <returns>Lista de bicicletarios ordenada</returns>
-        List<locai> ListarPontosProxixmos(double Latitude, double Longitude, int metros = 1000);
     }
 }

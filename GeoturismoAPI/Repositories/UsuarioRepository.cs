@@ -17,7 +17,7 @@ namespace GeoturismoAPI.Repositories
 
         public usuario BuscarId(Guid id)
         {
-            throw new NotImplementedException();
+            return ctx.usuarios.FirstOrDefault(u => u.id_usuarios == id);
         }
 
         public void Cadastrar(usuarioViewModel usuarionovo)
@@ -31,11 +31,6 @@ namespace GeoturismoAPI.Repositories
             ctx.usuarios.Add(NovoUsuario);
 
             ctx.SaveChanges();
-        }
-
-        public List<locai> ListarPontosProxixmos(double Latitude, double Longitude, int metros = 1000)
-        {
-            throw new NotImplementedException();
         }
 
         public usuario Login(string email, string senha)

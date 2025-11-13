@@ -64,7 +64,7 @@ namespace GeoturismoAPI.Controllers
             catch (Exception ex)
             {
 
-                return BadRequest(ex);
+                return BadRequest(new { mensagem = "Erro ao tentar autenticar", erro = ex.Message });
             }
         }
     }
