@@ -6,9 +6,11 @@ import 'react-native-reanimated';
 export default function RootLayout() {
   return (
     <PaperProvider theme={DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="cadastro" />
+        <Stack.Screen name="(tabs)" />
       </Stack>
+
       <StatusBar style="auto" />
     </PaperProvider>
   );
