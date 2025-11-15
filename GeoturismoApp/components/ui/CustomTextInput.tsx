@@ -1,10 +1,11 @@
-import { InputModeOptions, StyleSheet } from 'react-native';
+import { KeyboardTypeOptions, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
+
 interface CustomTextInputProps {
   label: string;
   value: string;
   onChangeText: (text: string) => void;
-  type: InputModeOptions;
+  type: KeyboardTypeOptions; // 🔹 substituído InputModeOptions
   multiline?: boolean;
 }
 
@@ -19,7 +20,7 @@ export default function CustomTextInput({
     <TextInput
       placeholder={label || ''}
       value={value}
-      inputMode={type}
+      keyboardType={type === 'default' ? 'visible-password' : type}
       onChangeText={onChangeText}
       textColor="#2B2D42"
       outlineColor="#2B2D42"
@@ -30,6 +31,15 @@ export default function CustomTextInput({
       numberOfLines={multiline ? 4 : 1}
       style={multiline ? styles.multiline : styles.input}
       underlineStyle={{ backgroundColor: '#F2F2F2' }}
+
+      // 🚫 Desativa sugestões, correções, capitalização e preenchimentos automáticos
+      autoCorrect={false}
+      spellCheck={false} // ✅ adicione esta linha
+      autoComplete="off"
+      autoCapitalize="none"
+      importantForAutofill="no"
+      disableFullscreenUI
+      contextMenuHidden
     />
   );
 }

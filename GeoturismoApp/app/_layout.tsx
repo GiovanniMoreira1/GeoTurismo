@@ -9,7 +9,7 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="login" />
         <Stack.Screen name="cadastro" />
-        <Stack.Screen name="loc_auth" />
+        <Stack.Screen name="locAuth" />
         <Stack.Screen name="(tabs)" />
       </Stack>
 
