@@ -1,8 +1,11 @@
-import FlatListPerfil, { ItemProps } from '@/components/FlatListPerfil';
+import FlatListPerfil, { ItemProps } from '@/components/ui/FlatListPerfil';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 // @ts-ignore
 import ProfileIcon from '@/assets/icons/profile-icon.svg';
+import PrefeituraModal from '@/components/ui/modals/PrefeituraModal';
+import { useState } from 'react';
 
 const data: ItemProps[] = [
   {
@@ -20,8 +23,9 @@ const data: ItemProps[] = [
 ];
 
 export default function ProfileScreen() {
+  const [visible, setVisible] = useState(false);
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.profileContainer}>
         <ProfileIcon width={200} height={200} style={styles.profileIcon} />
         <Text style={styles.name}>Nome Turista</Text>
@@ -31,10 +35,11 @@ export default function ProfileScreen() {
         </TouchableOpacity>
         <FlatListPerfil data={data} onPress={() => {}} />
       </View>
-      <TouchableOpacity style={styles.oficialButton}>
+      <TouchableOpacity style={styles.oficialButton} onPress={() => setVisible(true)}>
         <Text style={styles.oficialButtonText}>Oficializar</Text>
       </TouchableOpacity>
-    </View>
+      <PrefeituraModal visible={visible} onClose={() => setVisible(false)} />
+    </SafeAreaView>
   );
 }
 
