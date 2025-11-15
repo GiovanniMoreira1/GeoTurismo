@@ -8,6 +8,7 @@ import { ActivityIndicator, Alert, StyleSheet, View } from 'react-native';
 import MapView, { Marker, Region } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+
 export default function MapScreen() {
   const [newLocalModalVisible, setNewLocalModalVisible] = useState(false);
   const [localModalVisible, setLocalModalVisible] = useState(false);
