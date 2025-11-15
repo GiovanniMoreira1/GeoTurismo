@@ -57,7 +57,7 @@ export default function PrefeituraModal({ visible, onClose }: PrefeituraModalPro
                     label="Nome"
                     value={localName}
                     onChangeText={setLocalName}
-                    type="text"
+                    type="default"
                   />
                 </View>
 
@@ -67,7 +67,7 @@ export default function PrefeituraModal({ visible, onClose }: PrefeituraModalPro
                     label="Email"
                     value={street}
                     onChangeText={setStreet}
-                    type="email"
+                    type="default"
                   />
                 </View>
 
@@ -77,15 +77,15 @@ export default function PrefeituraModal({ visible, onClose }: PrefeituraModalPro
                     label="Responsável"
                     value={number}
                     onChangeText={setNumber}
-                    type="text"
+                    type="default"
                   />
                 </View>
                 <View style={styles.descriptionContainer}>
                   <Text style={styles.descriptionLabel}>Orgão:</Text>
-                  <CustomTextInput label="Orgão" value={cep} onChangeText={setCep} type="text" />
+                  <CustomTextInput label="Orgão" value={cep} onChangeText={setCep} type="default" />
                 </View>
               </ScrollView>
-              <CustomButton title="Salvar" onPress={() => {}} />
+              <CustomButton title="Salvar" onPress={() => {}} loading />
             </Card.Content>
           </Card>
         </KeyboardAvoidingView>

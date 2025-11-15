@@ -9,10 +9,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "bundleIdentifier": "com.geoturismo",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Precisamos da sua localização para mostrar onde você está."
+        "NSLocationWhenInUseUsageDescription": "Precisamos da sua localização para mostrar onde você está.",
+        "ITSAppUsesNonExemptEncryption": false
       },
-      "supportsTablet": true
+      "supportsTablet": true,
+      "associatedDomains": [
+        "applinks:u.expo.dev"
+      ]
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +32,23 @@
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION"
       ],
-      "package": "com.geoturismo"
+      "package": "com.geoturismo",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "u.expo.dev",
+              "pathPrefix": "/d3be9fc5-4e25-49ca-adf7-a2fc27bc1fb6"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "web": {
       "output": "static",
@@ -59,11 +80,19 @@
       "reactCompiler": true
     },
     "extra": {
-      "router": {},
+      "router": {
+        "origin": false
+      },
       "eas": {
         "projectId": "d3be9fc5-4e25-49ca-adf7-a2fc27bc1fb6"
       }
     },
-    "owner": "leall"
+    "owner": "leall",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/d3be9fc5-4e25-49ca-adf7-a2fc27bc1fb6"
+    }
   }
 }
